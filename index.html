@@ -8,7 +8,7 @@
     body {
       margin: 0;
       padding: 0;
-      background: #0c0c14 no-repeat center center fixed; /* Твой цвет фона */
+      background: #0c0c14; /* Твой темный фон */
       background-size: cover;
       display: flex;
       flex-direction: column;
@@ -16,70 +16,88 @@
       align-items: center;
       min-height: 100vh;
       font-family: 'Segoe UI', Tahoma, sans-serif;
-      color: white;
+      overflow: hidden; /* Чтобы не появлялись скроллы при анимации */
     }
 
     .logo {
       max-width: 320px;
-      margin-bottom: 50px;
+      margin-bottom: 60px;
       opacity: 0;
       animation: fade-in 1.5s ease-out forwards;
     }
 
-    /* --- SKYRIM LOADER STYLES --- */
-    .skyrim-loader-container {
-      width: 400px;
-      max-width: 80%;
-      height: 40px;
+    /* === SKYRIM ULTIMATE LOADER === */
+    :root {
+      --skyrim-gold: #c8b076; /* Точный оттенок золота из UI */
+      --skyrim-bg: #0c0c14;   /* Цвет фона для маскировки */
+    }
+
+    .skyrim-loader-wrapper {
       display: flex;
       align-items: center;
       justify-content: center;
-      position: relative;
+      width: 500px; /* Ширина как на скриншоте */
+      max-width: 90%;
+      height: 20px;
       opacity: 0;
-      /* Анимация появления контейнера (как у старого бара) */
       animation: fade-in 1s 1.8s ease-out forwards;
-    }
-
-    .skyrim-bar-border {
-      width: 100%;
-      height: 14px; /* Высота самой полоски */
-      border-top: 2px solid #c5a966;    /* Золотой цвет Skyrim */
-      border-bottom: 2px solid #c5a966;
       position: relative;
-      padding: 3px 0;
-      box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
     }
 
-    /* Декоративные ромбы по бокам */
-    .skyrim-bar-border::before,
-    .skyrim-bar-border::after {
+    /* Центральная часть с линиями */
+    .skyrim-rails {
+      flex-grow: 1;
+      height: 10px; /* Высота между линиями */
+      border-top: 2px solid var(--skyrim-gold);
+      border-bottom: 2px solid var(--skyrim-gold);
+      position: relative;
+      margin: 0 1px; /* Небольшой отступ от ромбов */
+      box-shadow: 0 0 10px rgba(0,0,0,0.5); /* Тень для объема */
+    }
+
+    /* Ромбы по бокам */
+    .skyrim-diamond {
+      width: 10px;
+      height: 10px;
+      border: 2px solid var(--skyrim-gold);
+      transform: rotate(45deg);
+      background: var(--skyrim-bg); /* Внутри ромба цвет фона */
+      box-shadow: 0 0 4px rgba(200, 176, 118, 0.3);
+      position: relative;
+      z-index: 2; /* Поверх линий */
+    }
+    
+    /* Маленькие точки внутри ромбов (деталь оригинала) */
+    .skyrim-diamond::after {
       content: '';
       position: absolute;
+      width: 4px;
+      height: 4px;
+      background: var(--skyrim-gold);
       top: 50%;
-      width: 8px;
-      height: 8px;
-      border: 2px solid #c5a966;
-      background: #0c0c14; /* Цвет фона твоего сайта, чтобы скрыть лишнее */
-      transform: translateY(-50%) rotate(45deg);
-      box-shadow: 0 0 5px rgba(197, 169, 102, 0.4);
+      left: 50%;
+      transform: translate(-50%, -50%);
+      opacity: 0.8;
     }
 
-    .skyrim-bar-border::before { left: -14px; }
-    .skyrim-bar-border::after { right: -14px; }
-
-    .skyrim-bar-fill {
-      height: 100%;
+    /* Заливка */
+    .skyrim-fill {
+      position: absolute;
+      top: 2px;    /* Отступ от верхней линии */
+      bottom: 2px; /* Отступ от нижней линии */
+      left: 0;
       width: 0%;
-      /* Благородный серый градиент как в оригинале */
-      background: linear-gradient(to bottom, #9fa1a3, #5a5a5a);
-      box-shadow: 0 0 8px rgba(255, 255, 255, 0.2);
-      /* Анимация заполнения */
+      /* Серебристо-дымчатый градиент как в игре */
+      background: linear-gradient(to bottom, #e6e6e6 0%, #989898 50%, #e6e6e6 100%);
+      box-shadow: 0 0 8px rgba(255, 255, 255, 0.5);
       animation: fill 4s 2s ease-in-out forwards;
+      z-index: 1;
     }
-    /* ----------------------------- */
+
+    /* ============================== */
 
     .video-container {
-      margin-top: 40px;
+      margin-top: 50px;
       opacity: 0;
       transition: opacity 0.5s ease-in;
     }
@@ -88,8 +106,9 @@
       width: 560px;
       height: auto;
       border-radius: 8px;
-      box-shadow: 0 0 15px rgba(0,0,0,0.6);
+      box-shadow: 0 0 20px rgba(0,0,0,0.8);
       outline: none;
+      border: 1px solid #333;
       max-width: 90vw;
     }
 
@@ -98,20 +117,21 @@
   </style>
 </head>
 <body>
-  <!-- Логотип -->
+
   <img src="assets\img\Hytale_logo.jpg" alt="Hytale" class="logo">
 
-  <!-- Новый Бар Загрузки (Skyrim Style) -->
-  <div class="skyrim-loader-container">
-    <div class="skyrim-bar-border">
-      <div class="skyrim-bar-fill"></div>
+  <!-- Новая структура бара -->
+  <div class="skyrim-loader-wrapper">
+    <div class="skyrim-diamond"></div>
+    <div class="skyrim-rails">
+      <div class="skyrim-fill"></div>
     </div>
+    <div class="skyrim-diamond"></div>
   </div>
 
   <div class="video-container" id="video"></div>
 
   <script>
-    // Твой скрипт оставлен без изменений
     setTimeout(() => {
       const videoContainer = document.getElementById('video');
       videoContainer.innerHTML = `
@@ -134,7 +154,7 @@
           video.style.display = 'block';
           video.muted = false;
           video.play().catch(e => {
-            console.log("Автовоспроизведение не удалось — пользователь должен кликнуть.");
+            console.log("Auto-play prevented");
             videoContainer.innerHTML = `
               <video
                 id="rickroll"
