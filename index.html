@@ -92,11 +92,55 @@
       opacity: 0.6; 
     }
 
-    /* КОНТЕЙНЕР ВИДЕО: Изменил transition на 2s для плавности */
-    .video-container {
-      margin-top: 50px;
+    /* Контейнер для кнопки и видео, чтобы они занимали одно место */
+    .content-area {
+        position: relative; /* Чтобы дочерние абсолютные элементы позиционировались относительно него */
+        margin-top: 50px;
+        width: 560px; /* Ширина видео */
+        height: 315px; /* Примерная высота видео (16:9 для 560px ширины) */
+        display: flex; /* Для центрирования кнопки */
+        justify-content: center;
+        align-items: center;
+    }
+
+    /* Стили для кнопки */
+    .show-video-button {
+      padding: 15px 30px;
+      font-size: 1.2em;
+      color: #c5a966;
+      background-color: rgba(0, 0, 0, 0.6);
+      border: 1px solid #c5a966;
+      border-radius: 5px;
+      cursor: pointer;
       opacity: 0;
-      transition: opacity 2s ease-in-out;
+      transition: opacity 0.5s ease-in-out;
+      outline: none;
+      box-shadow: 0 0 10px rgba(197, 169, 102, 0.4);
+      position: absolute; /* Позиционируем абсолютно, чтобы не влиять на поток документа */
+      z-index: 10; /* Кнопка выше видео */
+    }
+    .show-video-button:hover {
+      background-color: rgba(197, 169, 102, 0.1);
+      box-shadow: 0 0 15px rgba(197, 169, 102, 0.6);
+    }
+
+    /* КОНТЕЙНЕР ВИДЕО: Изначально скрыт, появляется по нажатию */
+    .video-container {
+      opacity: 0;
+      transition: opacity 1s ease-in-out; /* Плавное появление видео */
+      position: absolute; /* Позиционируем абсолютно, чтобы занимать то же место */
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      display: flex; /* Чтобы видео центрировалось внутри контейнера, если оно меньше */
+      justify-content: center;
+      align-items: center;
+      pointer-events: none; /* Изначально не реагирует на события мыши */
+    }
+    .video-container.active {
+      opacity: 1; /* Показываем, когда активно */
+      pointer-events: all; /* Включаем события мыши, когда видео активно */
     }
     
     video {
@@ -176,42 +220,59 @@
     <div class="line-extension right"></div>
   </div>
 
-  <div class="video-container" id="video"></div>
+  <!-- Общий контейнер для кнопки и видео -->
+  <div class="content-area">
+    <!-- Новая кнопка -->
+    <button id="showVideoButton" class="show-video-button">Показать видео</button>
+
+    <div class="video-container" id="videoContainer"></div>
+  </div>
 
   <script>
-    // Обновленный скрипт для плавного появления
+    const showVideoButton = document.getElementById('showVideoButton');
+    const videoContainer = document.getElementById('videoContainer');
+    let videoElement = null; // Переменная для хранения элемента видео
+
+    // Появление кнопки после завершения анимации загрузки
     setTimeout(() => {
-      const videoContainer = document.getElementById('video');
-      
-      // 1. Вставляем видео сразу с display:block (но оно невидимо из-за opacity: 0 в CSS)
-      videoContainer.innerHTML = `
-        <video
-          id="rickroll"
-          autoplay
-          loop
-          playsinline
-          controls
-          style="display:block;">
-          <source src="assets/videos/Rick_Roll.mp4" type="video/mp4">
-          Your browser does not support the video tag.
-        </video>
-      `;
+      showVideoButton.style.opacity = '1';
+    }, 6500); // Совпадает с задержкой, когда раньше появлялось видео
 
-      // 2. Делаем микро-паузу (50мс), чтобы браузер "увидел" элемент,
-      // а потом запускаем анимацию opacity
-      setTimeout(() => {
-        videoContainer.style.opacity = '1';
+    // Обработчик события для кнопки
+    showVideoButton.addEventListener('click', () => {
+      // Скрываем кнопку
+      showVideoButton.style.opacity = '0';
+      showVideoButton.style.pointerEvents = 'none'; // Отключаем клики
 
-        const video = document.getElementById('rickroll');
-        if (video) {
-          video.muted = false;
-          video.play().catch(e => {
-            console.log("Автоплей не сработал");
-          });
-        }
-      }, 50);
+      // Вставляем видео, если его еще нет
+      if (!videoElement) {
+        videoContainer.innerHTML = `
+          <video
+            id="rickroll"
+            autoplay
+            loop
+            playsinline
+            controls
+            style="display:block;">
+            <source src="assets/videos/Rick_Roll.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+          </video>
+        `;
+        videoElement = document.getElementById('rickroll');
+      }
 
-    }, 6500);
+      // Добавляем класс 'active' для отображения контейнера
+      // Запускаем плавное появление видео через CSS transition opacity
+      videoContainer.classList.add('active');
+
+      // Автоплей видео (если не отключен браузером)
+      if (videoElement) {
+        videoElement.muted = false; // Отключаем звук, если это необходимо
+        videoElement.play().catch(e => {
+          console.log("Автоплей видео не сработал:", e);
+        });
+      }
+    });
   </script>
 </body>
 </html>
