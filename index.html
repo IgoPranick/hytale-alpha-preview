@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Hytale Preview</title>
+<style>
+  body {
+    background: #1a1a1a;
+    color: #fff;
+    font-family: 'Arial', sans-serif;
+    text-align: center;
+    padding-top: 100px;
+  }
+  #container {
+    width: 400px;
+    margin: 0 auto;
+  }
+  #progressBar {
+    width: 100%;
+    background-color: #333;
+    border-radius: 10px;
+    overflow: hidden;
+    margin-top: 20px;
+  }
+  #progress {
+    height: 20px;
+    width: 0%;
+    background-color: #00ccff;
+  }
+  img {
+    max-width: 100%;
+  }
+</style>
+</head>
+<body>
+  <div id="container">
+    <h1>Loading Hytale Alpha Preview...</h1>
+    <img src="https://i.imgur.com/5Nf0eT1.png" alt="Hytale logo placeholder">
+    <div id="progressBar">
+      <div id="progress"></div>
+    </div>
+    <p>Please wait while we prepare your preview</p>
+  </div>
+
+<script>
+let progress = 0;
+let interval = setInterval(() => {
+    progress += 1;
+    document.getElementById('progress').style.width = progress + '%';
+    if(progress >= 100){
+        clearInterval(interval);
+        // Редирект на Ютуб (рикрол)
+        window.location.href = "https://www.youtube.com/watch?v=dQw4w9WgXcQ";
+    }
+}, 50); // 50ms * 100 = 5 секунд
+</script>
+</body>
+</html>
