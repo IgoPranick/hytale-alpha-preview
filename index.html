@@ -1,58 +1,139 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>Hytale Preview</title>
-<style>
-  body {
-    background: #1a1a1a;
-    color: #fff;
-    font-family: 'Arial', sans-serif;
-    text-align: center;
-    padding-top: 100px;
-  }
-  #container {
-    width: 400px;
-    margin: 0 auto;
-  }
-  #progressBar {
-    width: 100%;
-    background-color: #333;
-    border-radius: 10px;
-    overflow: hidden;
-    margin-top: 20px;
-  }
-  #progress {
-    height: 20px;
-    width: 0%;
-    background-color: #00ccff;
-  }
-  img {
-    max-width: 100%;
-  }
-</style>
+  <meta charset="UTF-8">
+  <title>Hytale — Early Access Sign‑Up</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background: #0d1118;
+      color: #eee;
+      font-family: 'Segoe UI', Tahoma, sans-serif;
+    }
+    header {
+      background: url('assets/banner.jpg') no-repeat center/cover;
+      height: 60vh;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+    }
+    header::after {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0,0,0,0.6);
+    }
+    header h1 {
+      position: relative;
+      font-size: 4em;
+      margin: 0;
+      color: #00ccff;
+      text-shadow: 0 0 10px rgba(0,204,255,0.7);
+    }
+    header p {
+      position: relative;
+      font-size: 1.5em;
+      color: #ccc;
+    }
+    #cta {
+      margin-top: 20px;
+      position: relative;
+    }
+    #cta a {
+      display: inline-block;
+      padding: 15px 30px;
+      background: #00ccff;
+      color: #111;
+      font-size: 1.2em;
+      text-decoration: none;
+      border-radius: 5px;
+      transition: background 0.3s;
+    }
+    #cta a:hover {
+      background: #0099bb;
+    }
+    main {
+      padding: 50px 20px;
+      max-width: 800px;
+      margin: 0 auto;
+      line-height: 1.6em;
+    }
+    .features {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 30px;
+      margin-top: 40px;
+    }
+    .feature {
+      flex: 1 1 250px;
+      background: #1a1a1a;
+      padding: 20px;
+      border-radius: 8px;
+    }
+    .feature h3 {
+      margin-top: 0;
+      color: #00ccff;
+    }
+    footer {
+      padding: 20px;
+      text-align: center;
+      color: #777;
+      font-size: 0.9em;
+    }
+  </style>
 </head>
 <body>
-  <div id="container">
-    <h1>Loading Hytale Alpha Preview...</h1>
-    <img src="https://i.imgur.com/5Nf0eT1.png" alt="Hytale logo placeholder">
-    <div id="progressBar">
-      <div id="progress"></div>
+
+  <header>
+    <div>
+      <h1>Hytale — Early Access</h1>
+      <p>Embark on a world of adventure & creation</p>
+      <div id="cta">
+        <a href="#" id="start-btn">Join Beta / Watch Trailer</a>
+      </div>
     </div>
-    <p>Please wait while we prepare your preview</p>
-  </div>
+  </header>
+
+  <main>
+    <section>
+      <h2>What is Hytale?</h2>
+      <p>Hytale combines sandbox‑building, deep RPG‑mechanics and creative tools — explore procedurally generated worlds, build block‑by‑block, fight monsters, create mods or your own minigames. Any style, any path.</p>
+    </section>
+
+    <section class="features">
+      <div class="feature">
+        <h3>Adventure & Exploration</h3>
+        <p>Dungeons, biomes, secrets — every journey is unique.</p>
+      </div>
+      <div class="feature">
+        <h3>Creative Building</h3>
+        <p>Construct castles, towns or underground lairs block by block.</p>
+      </div>
+      <div class="feature">
+        <h3>Mod & Minigame Tools</h3>
+        <p>Create your own game modes, share with friends or run a server.</p>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    &copy; 2025 Hypixel Studios LTD. All rights reserved.
+  </footer>
 
 <script>
-let progress = 0;
-let interval = setInterval(() => {
-    progress += 1;
-    document.getElementById('progress').style.width = progress + '%';
-    if(progress >= 100){
-        clearInterval(interval);
-        // Редирект на Ютуб (рикрол)
-        window.location.href = "https://www.youtube.com/watch?v=dQw4w9WgXcQ";
-    }
-}, 50); // 50ms * 100 = 5 секунд
+// Кнопка запуска редиректа + задержка + визуал «загрузка…»
+document.getElementById('start-btn').addEventListener('click', function(e){
+  e.preventDefault();
+  // можно показать экран Loading перед редиректом
+  document.body.innerHTML = '<div style="display:flex; align-items:center; justify-content:center; height:100vh; background:#000; color:#fff; font-family:sans-serif;"><div><h2>Loading preview...</h2><p>Please wait…</p></div></div>';
+  setTimeout(() => {
+    window.location.href = "https://www.youtube.com/watch?v=dQw4w9WgXcQ";
+  }, 3000);  // 3 секунды
+});
 </script>
+
 </body>
 </html>
