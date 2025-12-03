@@ -2,138 +2,105 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Hytale — Early Access Sign‑Up</title>
+  <title>Hytale</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <style>
     body {
       margin: 0;
       padding: 0;
-      background: #0d1118;
-      color: #eee;
-      font-family: 'Segoe UI', Tahoma, sans-serif;
-    }
-    header {
-      background: url('assets/banner.jpg') no-repeat center/cover;
-      height: 60vh;
-      position: relative;
+      background: #0c0c14 url('https://i.imgur.com/3zJZQ7r.jpg') no-repeat center center fixed;
+      background-size: cover;
       display: flex;
-      align-items: center;
+      flex-direction: column;
       justify-content: center;
-      text-align: center;
+      align-items: center;
+      min-height: 100vh;
+      font-family: 'Segoe UI', Tahoma, sans-serif;
+      color: white;
     }
-    header::after {
-      content: '';
+
+    .logo {
+      max-width: 320px;
+      margin-bottom: 40px;
+      opacity: 0;
+      animation: fade-in 1.5s ease-out forwards;
+    }
+
+    .progress-bar {
+      width: 300px;
+      height: 6px;
+      background: #1e1e2e;
+      border-radius: 3px;
+      overflow: hidden;
+      box-shadow: inset 0 0 3px rgba(0,0,0,0.6);
+      border: 1px solid #333;
+      opacity: 0;
+      animation: fade-in 1s 1.8s ease-out forwards;
+    }
+
+    .progress-fill {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, #3a7bd5, #3a6073, #5c2b7f, #ff6b6b);
+      box-shadow: 0 0 6px rgba(255,255,255,0.4);
+      animation: fill 4s 2s ease-in-out forwards, glow 1.2s 2s infinite alternate;
+    }
+
+    .video-container {
+      margin-top: 30px;
+      opacity: 0;
+      transition: opacity 0.5s ease-in;
+    }
+
+    @keyframes fade-in {
+      to { opacity: 1; }
+    }
+
+    @keyframes fill {
+      to { width: 100%; }
+    }
+
+    @keyframes glow {
+      from { box-shadow: 0 0 4px rgba(255,255,255,0.3); }
+      to { box-shadow: 0 0 10px rgba(255,255,255,0.8); }
+    }
+
+    /* Скрыть всё, кроме трейлера — никаких намёков */
+    .disclaimer {
       position: absolute;
-      top: 0; left: 0; right: 0; bottom: 0;
-      background: rgba(0,0,0,0.6);
-    }
-    header h1 {
-      position: relative;
-      font-size: 4em;
-      margin: 0;
-      color: #00ccff;
-      text-shadow: 0 0 10px rgba(0,204,255,0.7);
-    }
-    header p {
-      position: relative;
-      font-size: 1.5em;
-      color: #ccc;
-    }
-    #cta {
-      margin-top: 20px;
-      position: relative;
-    }
-    #cta a {
-      display: inline-block;
-      padding: 15px 30px;
-      background: #00ccff;
-      color: #111;
-      font-size: 1.2em;
-      text-decoration: none;
-      border-radius: 5px;
-      transition: background 0.3s;
-    }
-    #cta a:hover {
-      background: #0099bb;
-    }
-    main {
-      padding: 50px 20px;
-      max-width: 800px;
-      margin: 0 auto;
-      line-height: 1.6em;
-    }
-    .features {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 30px;
-      margin-top: 40px;
-    }
-    .feature {
-      flex: 1 1 250px;
-      background: #1a1a1a;
-      padding: 20px;
-      border-radius: 8px;
-    }
-    .feature h3 {
-      margin-top: 0;
-      color: #00ccff;
-    }
-    footer {
-      padding: 20px;
-      text-align: center;
-      color: #777;
-      font-size: 0.9em;
+      bottom: 10px;
+      font-size: 0;
+      opacity: 0;
+      color: transparent;
     }
   </style>
 </head>
 <body>
+  <img src="https://i.imgur.com/8kKmCqS.png" alt="Hytale" class="logo">
+  <div class="progress-bar">
+    <div class="progress-fill"></div>
+  </div>
+  <div class="video-container" id="video"></div>
 
-  <header>
-    <div>
-      <h1>Hytale — Early Access</h1>
-      <p>Embark on a world of adventure & creation</p>
-      <div id="cta">
-        <a href="#" id="start-btn">Join Beta / Watch Trailer</a>
-      </div>
-    </div>
-  </header>
+  <!-- Невидимая "заглушка" — чтобы не палевно -->
+  <div class="disclaimer">© 2025 Hytale. All rights reserved.</div>
 
-  <main>
-    <section>
-      <h2>What is Hytale?</h2>
-      <p>Hytale combines sandbox‑building, deep RPG‑mechanics and creative tools — explore procedurally generated worlds, build block‑by‑block, fight monsters, create mods or your own minigames. Any style, any path.</p>
-    </section>
-
-    <section class="features">
-      <div class="feature">
-        <h3>Adventure & Exploration</h3>
-        <p>Dungeons, biomes, secrets — every journey is unique.</p>
-      </div>
-      <div class="feature">
-        <h3>Creative Building</h3>
-        <p>Construct castles, towns or underground lairs block by block.</p>
-      </div>
-      <div class="feature">
-        <h3>Mod & Minigame Tools</h3>
-        <p>Create your own game modes, share with friends or run a server.</p>
-      </div>
-    </section>
-  </main>
-
-  <footer>
-    &copy; 2025 Hypixel Studios LTD. All rights reserved.
-  </footer>
-
-<script>
-// Кнопка запуска редиректа + задержка + визуал «загрузка…»
-document.getElementById('start-btn').addEventListener('click', function(e){
-  e.preventDefault();
-  // можно показать экран Loading перед редиректом
-  document.body.innerHTML = '<div style="display:flex; align-items:center; justify-content:center; height:100vh; background:#000; color:#fff; font-family:sans-serif;"><div><h2>Loading preview...</h2><p>Please wait…</p></div></div>';
-  setTimeout(() => {
-    window.location.href = "https://www.youtube.com/watch?v=dQw4w9WgXcQ";
-  }, 3000);  // 3 секунды
-});
-</script>
-
+  <script>
+    // Через 6.5 секунд (после завершения анимации) показываем видео
+    setTimeout(() => {
+      const videoContainer = document.getElementById('video');
+      videoContainer.innerHTML = `
+        <iframe
+          width="560"
+          height="315"
+          src="https://youtu.be/xvFZjo5PgG0?si=Anw3yF7Qndzh5Hbv"
+          frameborder="0"
+          allow="autoplay; encrypted-media"
+          allowfullscreen>
+        </iframe>
+      `;
+      videoContainer.style.opacity = '1';
+    }, 6500);
+  </script>
 </body>
 </html>
