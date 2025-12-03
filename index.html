@@ -52,6 +52,15 @@
       transition: opacity 0.5s ease-in;
     }
 
+    video {
+      width: 560px;
+      height: auto;
+      border-radius: 8px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.6);
+      outline: none;
+      max-width: 90vw;
+    }
+
     @keyframes fade-in { to { opacity: 1; } }
     @keyframes fill { to { width: 100%; } }
     @keyframes glow {
@@ -69,28 +78,41 @@
     setTimeout(() => {
       const videoContainer = document.getElementById('video');
       videoContainer.innerHTML = `
-        <iframe
+        <video
           id="rickroll"
-          width="560"
-          height="315"
-          src="https://www.youtube.com/embed/xvFZjo5PgG0?si=WgMc1vDm-ylmDOcA?autoplay=1&rel=0&modestbranding=1&mute=1"
-          frameborder="0"
-          allow="autoplay; encrypted-media"
-          allowfullscreen>
-        </iframe>
+          autoplay
+          loop
+          playsinline
+          controls
+          style="display:none;">
+          <source src="assets/videos/Rick Roll.mp4" type="video/mp4">
+          Your browser does not support the video tag.
+        </video>
       `;
       videoContainer.style.opacity = '1';
 
-      // Через 2 секунды пытаемся включить звук
+      // Делаем видео видимым и снимаем мут через 2 секунды
       setTimeout(() => {
-        const iframe = document.getElementById('rickroll');
-        const iframeWindow = iframe.contentWindow;
-        if (iframeWindow) {
-          // Пытаемся отправить postMessage, чтобы снять мут
-          iframeWindow.postMessage(
-            '{"event":"command","func":"unMute","args":""}',
-            'https://youtu.be'
-          );
+        const video = document.getElementById('rickroll');
+        if (video) {
+          video.style.display = 'block';
+          video.muted = false; // Включаем звук
+          video.play().catch(e => {
+            console.log("Автовоспроизведение не удалось — пользователь должен кликнуть.");
+            // Если не получилось — показываем кнопку "Включить звук"
+            videoContainer.innerHTML = `
+              <video
+                id="rickroll"
+                autoplay
+                loop
+                playsinline
+                controls
+                style="display:block;">
+                <source src="assets/videos/Rick Roll.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+              </video>
+            `;
+          });
         }
       }, 2000);
     }, 6500);
