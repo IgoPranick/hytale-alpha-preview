@@ -52,48 +52,27 @@
       transition: opacity 0.5s ease-in;
     }
 
-    @keyframes fade-in {
-      to { opacity: 1; }
-    }
-
-    @keyframes fill {
-      to { width: 100%; }
-    }
-
+    @keyframes fade-in { to { opacity: 1; } }
+    @keyframes fill { to { width: 100%; } }
     @keyframes glow {
       from { box-shadow: 0 0 4px rgba(255,255,255,0.3); }
       to { box-shadow: 0 0 10px rgba(255,255,255,0.8); }
-    }
-
-    /* Скрыть всё, кроме трейлера — никаких намёков */
-    .disclaimer {
-      position: absolute;
-      bottom: 10px;
-      font-size: 0;
-      opacity: 0;
-      color: transparent;
     }
   </style>
 </head>
 <body>
   <img src="https://i.imgur.com/8kKmCqS.png" alt="Hytale" class="logo">
-  <div class="progress-bar">
-    <div class="progress-fill"></div>
-  </div>
+  <div class="progress-bar"><div class="progress-fill"></div></div>
   <div class="video-container" id="video"></div>
 
-  <!-- Невидимая "заглушка" — чтобы не палевно -->
-  <div class="disclaimer">© 2025 Hytale. All rights reserved.</div>
-
   <script>
-    // Через 6.5 секунд (после завершения анимации) показываем видео
     setTimeout(() => {
       const videoContainer = document.getElementById('video');
       videoContainer.innerHTML = `
         <iframe
           width="560"
           height="315"
-          src="https://youtu.be/xvFZjo5PgG0?si=Anw3yF7Qndzh5Hbv"
+          src="https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1&mute=1"
           frameborder="0"
           allow="autoplay; encrypted-media"
           allowfullscreen>
