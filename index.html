@@ -8,7 +8,7 @@
     body {
       margin: 0;
       padding: 0;
-      background: #0c0c14 url('https://i.imgur.com/3zJZQ7r.jpg') no-repeat center center fixed;
+      background: #0c0c14 no-repeat center center fixed; /* Твой цвет фона */
       background-size: cover;
       display: flex;
       flex-direction: column;
@@ -21,33 +21,65 @@
 
     .logo {
       max-width: 320px;
-      margin-bottom: 40px;
+      margin-bottom: 50px;
       opacity: 0;
       animation: fade-in 1.5s ease-out forwards;
     }
 
-    .progress-bar {
-      width: 300px;
-      height: 6px;
-      background: #1e1e2e;
-      border-radius: 3px;
-      overflow: hidden;
-      box-shadow: inset 0 0 3px rgba(0,0,0,0.6);
-      border: 1px solid #333;
+    /* --- SKYRIM LOADER STYLES --- */
+    .skyrim-loader-container {
+      width: 400px;
+      max-width: 80%;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
       opacity: 0;
+      /* Анимация появления контейнера (как у старого бара) */
       animation: fade-in 1s 1.8s ease-out forwards;
     }
 
-    .progress-fill {
-      height: 100%;
-      width: 0%;
-      background: linear-gradient(90deg, #3a7bd5, #3a6073, #5c2b7f, #ff6b6b);
-      box-shadow: 0 0 6px rgba(255,255,255,0.4);
-      animation: fill 4s 2s ease-in-out forwards, glow 1.2s 2s infinite alternate;
+    .skyrim-bar-border {
+      width: 100%;
+      height: 14px; /* Высота самой полоски */
+      border-top: 2px solid #c5a966;    /* Золотой цвет Skyrim */
+      border-bottom: 2px solid #c5a966;
+      position: relative;
+      padding: 3px 0;
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
     }
 
+    /* Декоративные ромбы по бокам */
+    .skyrim-bar-border::before,
+    .skyrim-bar-border::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      width: 8px;
+      height: 8px;
+      border: 2px solid #c5a966;
+      background: #0c0c14; /* Цвет фона твоего сайта, чтобы скрыть лишнее */
+      transform: translateY(-50%) rotate(45deg);
+      box-shadow: 0 0 5px rgba(197, 169, 102, 0.4);
+    }
+
+    .skyrim-bar-border::before { left: -14px; }
+    .skyrim-bar-border::after { right: -14px; }
+
+    .skyrim-bar-fill {
+      height: 100%;
+      width: 0%;
+      /* Благородный серый градиент как в оригинале */
+      background: linear-gradient(to bottom, #9fa1a3, #5a5a5a);
+      box-shadow: 0 0 8px rgba(255, 255, 255, 0.2);
+      /* Анимация заполнения */
+      animation: fill 4s 2s ease-in-out forwards;
+    }
+    /* ----------------------------- */
+
     .video-container {
-      margin-top: 30px;
+      margin-top: 40px;
       opacity: 0;
       transition: opacity 0.5s ease-in;
     }
@@ -63,18 +95,23 @@
 
     @keyframes fade-in { to { opacity: 1; } }
     @keyframes fill { to { width: 100%; } }
-    @keyframes glow {
-      from { box-shadow: 0 0 4px rgba(255,255,255,0.3); }
-      to { box-shadow: 0 0 10px rgba(255,255,255,0.8); }
-    }
   </style>
 </head>
 <body>
-  <img src="https://i.imgur.com/8kKmCqS.png" alt="Hytale" class="logo">
-  <div class="progress-bar"><div class="progress-fill"></div></div>
+  <!-- Логотип -->
+  <img src="assets\img\Hytale_logo.jpg" alt="Hytale" class="logo">
+
+  <!-- Новый Бар Загрузки (Skyrim Style) -->
+  <div class="skyrim-loader-container">
+    <div class="skyrim-bar-border">
+      <div class="skyrim-bar-fill"></div>
+    </div>
+  </div>
+
   <div class="video-container" id="video"></div>
 
   <script>
+    // Твой скрипт оставлен без изменений
     setTimeout(() => {
       const videoContainer = document.getElementById('video');
       videoContainer.innerHTML = `
@@ -91,15 +128,13 @@
       `;
       videoContainer.style.opacity = '1';
 
-      // Делаем видео видимым и снимаем мут через 2 секунды
       setTimeout(() => {
         const video = document.getElementById('rickroll');
         if (video) {
           video.style.display = 'block';
-          video.muted = false; // Включаем звук
+          video.muted = false;
           video.play().catch(e => {
             console.log("Автовоспроизведение не удалось — пользователь должен кликнуть.");
-            // Если не получилось — показываем кнопку "Включить звук"
             videoContainer.innerHTML = `
               <video
                 id="rickroll"
