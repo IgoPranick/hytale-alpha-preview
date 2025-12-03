@@ -8,100 +8,96 @@
     body {
       margin: 0;
       padding: 0;
-      background: #0c0c14; /* Твой темный фон */
-      background-size: cover;
+      background: #0c0c14;
       display: flex;
       flex-direction: column;
       justify-content: center;
       align-items: center;
       min-height: 100vh;
       font-family: 'Segoe UI', Tahoma, sans-serif;
-      overflow: hidden; /* Чтобы не появлялись скроллы при анимации */
+      overflow: hidden;
     }
 
     .logo {
       max-width: 320px;
-      margin-bottom: 60px;
+      margin-bottom: 50px;
       opacity: 0;
       animation: fade-in 1.5s ease-out forwards;
-    }
-
-    /* === SKYRIM ULTIMATE LOADER === */
-    :root {
-      --skyrim-gold: #c8b076; /* Точный оттенок золота из UI */
-      --skyrim-bg: #0c0c14;   /* Цвет фона для маскировки */
     }
 
     .skyrim-loader-wrapper {
       display: flex;
       align-items: center;
       justify-content: center;
-      width: 500px; /* Ширина как на скриншоте */
-      max-width: 90%;
-      height: 20px;
+      width: 100%;
+      height: 80px; /* Увеличили место для декоративных линий */
       opacity: 0;
       animation: fade-in 1s 1.8s ease-out forwards;
-      position: relative;
     }
 
-    /* Центральная часть с линиями */
-    .skyrim-rails {
+    /* Боковые линии (золотые усы) */
+    .line-extension {
       flex-grow: 1;
-      height: 10px; /* Высота между линиями */
-      border-top: 2px solid var(--skyrim-gold);
-      border-bottom: 2px solid var(--skyrim-gold);
-      position: relative;
-      margin: 0 1px; /* Небольшой отступ от ромбов */
-      box-shadow: 0 0 10px rgba(0,0,0,0.5); /* Тень для объема */
+      height: 1px;
+      background: linear-gradient(90deg, transparent 0%, #c5a966 100%);
+      opacity: 0.5;
+    }
+    .line-extension.right {
+      background: linear-gradient(-90deg, transparent 0%, #c5a966 100%);
     }
 
-    /* Ромбы по бокам */
-    .skyrim-diamond {
-      width: 10px;
-      height: 10px;
-      border: 2px solid var(--skyrim-gold);
-      transform: rotate(45deg);
-      background: var(--skyrim-bg); /* Внутри ромба цвет фона */
-      box-shadow: 0 0 4px rgba(200, 176, 118, 0.3);
-      position: relative;
-      z-index: 2; /* Поверх линий */
-    }
-    
-    /* Маленькие точки внутри ромбов (деталь оригинала) */
-    .skyrim-diamond::after {
-      content: '';
-      position: absolute;
+    .node-dot {
       width: 4px;
       height: 4px;
-      background: var(--skyrim-gold);
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      opacity: 0.8;
+      background: #000;
+      border: 1px solid #c5a966;
+      border-radius: 50%;
+      margin: 0 6px;
+      box-shadow: 0 0 4px #c5a966;
     }
 
-    /* Заливка */
-    .skyrim-fill {
-      position: absolute;
-      top: 2px;    /* Отступ от верхней линии */
-      bottom: 2px; /* Отступ от нижней линии */
-      left: 0;
+    /* === SVG БАР === */
+    .skyrim-svg-bar {
+      width: 460px;
+      height: 50px; /* Высота SVG, чтобы вместить внешние линии */
+      filter: drop-shadow(0 4px 6px rgba(0,0,0,0.6));
+      overflow: visible;
+    }
+
+    .bar-frame {
+      fill: rgba(0, 0, 0, 0.6); /* Темная подложка */
+      stroke: #c5a966;
+      stroke-width: 1.5px;
+      vector-effect: non-scaling-stroke;
+      stroke-linejoin: miter;
+      stroke-miterlimit: 4;
+    }
+
+    /* Стиль заполнения */
+    .progress-fill-rect {
+      fill: url(#magicka-gradient); /* Синий градиент */
       width: 0%;
-      /* Серебристо-дымчатый градиент как в игре */
-      background: linear-gradient(to bottom, #e6e6e6 0%, #989898 50%, #e6e6e6 100%);
-      box-shadow: 0 0 8px rgba(255, 255, 255, 0.5);
-      animation: fill 4s 2s ease-in-out forwards;
-      z-index: 1;
+      height: 100%;
+      /* Свечение для магии */
+      filter: drop-shadow(0 0 5px rgba(45, 123, 255, 0.6));
+      animation: fill-svg 4s 2s ease-in-out forwards;
     }
 
-    /* ============================== */
+    /* Стиль тонких серых линий сверху и снизу */
+    .faint-line {
+      stroke: url(#faint-grey-gradient);
+      stroke-width: 1px;
+      fill: none;
+      vector-effect: non-scaling-stroke;
+      opacity: 0.6; /* Полупрозрачность */
+    }
 
     .video-container {
       margin-top: 50px;
       opacity: 0;
       transition: opacity 0.5s ease-in;
     }
-
+    
     video {
       width: 560px;
       height: auto;
@@ -109,24 +105,86 @@
       box-shadow: 0 0 20px rgba(0,0,0,0.8);
       outline: none;
       border: 1px solid #333;
-      max-width: 90vw;
     }
 
     @keyframes fade-in { to { opacity: 1; } }
-    @keyframes fill { to { width: 100%; } }
+    @keyframes fill-svg { 
+      0% { width: 0%; }
+      100% { width: 100%; } 
+    }
   </style>
 </head>
 <body>
 
   <img src="assets\img\Hytale_logo.jpg" alt="Hytale" class="logo">
 
-  <!-- Новая структура бара -->
   <div class="skyrim-loader-wrapper">
-    <div class="skyrim-diamond"></div>
-    <div class="skyrim-rails">
-      <div class="skyrim-fill"></div>
-    </div>
-    <div class="skyrim-diamond"></div>
+    <div class="line-extension"></div>
+    <div class="node-dot"></div>
+
+    <!-- viewBox расширен по вертикали (-15 и 50), чтобы влезли линии -->
+    <svg class="skyrim-svg-bar" viewBox="-10 -15 420 50" preserveAspectRatio="xMidYMid meet">
+      <defs>
+        <!-- 1. ГРАДИЕНТ ДЛЯ ДЕКОРАТИВНЫХ ЛИНИЙ (Прозрачный -> Серый -> Прозрачный) -->
+        <linearGradient id="faint-grey-gradient" x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="0%" stop-color="transparent" />
+          <stop offset="20%" stop-color="#888888" />
+          <stop offset="80%" stop-color="#888888" />
+          <stop offset="100%" stop-color="transparent" />
+        </linearGradient>
+
+        <!-- 2. ГРАДИЕНТ МАГИИ (Синий, как на скрине) -->
+        <!-- От темно-фиолетового слева к ярко-голубому справа -->
+        <linearGradient id="magicka-gradient" x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="0%" stop-color="#4d47b5" />  <!-- Темно-синий/фиолетовый -->
+          <stop offset="50%" stop-color="#348dd5" /> <!-- Синий -->
+          <stop offset="100%" stop-color="#4db0ce" /> <!-- Ярко-голубой -->
+        </linearGradient>
+
+        <!-- Твой путь формы (ровный) -->
+        <path id="bar-shape" d="
+          M 1 10 
+          L 8 5 
+          L 192 5 
+          L 200 0 
+          L 208 5 
+          L 392 5 
+          L 399 10 
+          L 392 15 
+          L 208 15 
+          L 200 20 
+          L 192 15 
+          L 8 15 
+          Z" 
+        />
+        
+        <clipPath id="shape-mask">
+          <use href="#bar-shape" />
+        </clipPath>
+      </defs>
+
+      <!-- === НОВЫЕ ДЕКОРАТИВНЫЕ ЛИНИИ === -->
+      <!-- Верхняя линия (чуть выше бара, Y= -4) -->
+      <path d="M 10 -4 L 390 -4" class="faint-line" />
+      
+      <!-- Нижняя линия (чуть ниже бара, Y= 24) -->
+      <path d="M 10 24 L 390 24" class="faint-line" />
+      <!-- ================================ -->
+
+      <!-- Фон внутри бара -->
+      <use href="#bar-shape" class="bar-frame" style="stroke: none;" />
+
+      <!-- Синяя заливка (обрезана маской) -->
+      <g clip-path="url(#shape-mask)">
+        <rect class="progress-fill-rect" x="-10" y="-10" width="0" height="40" />
+      </g>
+
+      <!-- Золотая рамка -->
+      <use href="#bar-shape" class="bar-frame" fill="none" />
+    </svg>
+
+    <div class="node-dot"></div>
+    <div class="line-extension right"></div>
   </div>
 
   <div class="video-container" id="video"></div>
